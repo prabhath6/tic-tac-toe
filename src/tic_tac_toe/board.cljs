@@ -4,7 +4,10 @@
 
 (defn board []
   [:div
-   [:div {:class "status"} @st/status]
+   (if (empty? @st/isWinner)
+     [:div {:class "status"} (str @st/status (s/get-turn-val @st/isNext))]
+     [:div {:class "status"
+            :style {:color "green"}} (str @st/isWinner " is the winner.")])
    [:div {:class "board-row"}
     [s/square 0]
     [s/square 1]
