@@ -1,7 +1,8 @@
 (ns tic-tac-toe.core
     (:require
      [reagent.core :as r]
-     [tic-tac-toe.board :as b]))
+     [tic-tac-toe.board :as b]
+     [tic-tac-toe.state :as st]))
 
 ;; -------------------------
 ;; Views

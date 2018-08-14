@@ -5,8 +5,12 @@
 
 ;; ------------------
 ;; helpers
-(defn handle-on-click [index, turn-value]
-    (swap! st/board-state #(assoc % index turn-value)))
+(defn handle-on-click [index current-board turn-value]
+  (let [new-board (assoc current-board index turn-value)]
+  (swap! st/history #(assoc % @st/current-key new-board))
+  (swap! st/current-key inc)
+  (if (not (nil? (w/calculate-winner new-board st/lines)))
+    (reset! st/isWinner (w/calculate-winner new-board st/lines)))))
 
 (defn get-turn-val [isNext]
   (if isNext "X" "O"))
@@ -14,7 +18,8 @@
 ;;--------------------
 ;; Component
 (defn square [square-pos]
-  (let [square-state (r/atom "")]
+  (let [square-state (r/atom "")
+        ]
     (fn []
       [:input {:class "square"
                :type "button"
@@ -23,12 +28,9 @@
                            (let [square-value (nth @st/board-state square-pos)
                                  turn-value (get-turn-val @st/isNext)
                                  is-winner @st/isWinner
-                                 ]
+                                 [_ current-board] (last @st/history)]
                              (when-not (or (not (empty? is-winner)) (not (empty? @square-state)))
                               (reset! square-state turn-value)
                               (swap! st/isNext #(not %))
-                              (handle-on-click square-pos turn-value)
-                              (if (not (nil? (w/calculate-winner st/lines)))
-                                (reset! st/isWinner (w/calculate-winner st/lines)))
-                              (prn @st/isWinner)
+                              (handle-on-click square-pos current-board turn-value)
                               (prn @st/board-state))))}])))

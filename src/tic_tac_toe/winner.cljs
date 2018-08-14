@@ -1,10 +1,13 @@
-(ns tic-tac-toe.winner
-  (:require [tic-tac-toe.state :as st]))
+(ns tic-tac-toe.winner)
 
-(defn calculate-winner [lines]
+(defn calculate-winner [current-board lines]
   (let [[a b c] (first lines)]
     (cond
       (<= (count lines) 0) nil
       (and
-       (== (nth @st/board-state a) (nth @st/board-state b) (nth @st/board-state c)) (not (nil? (nth @st/board-state a)))) (nth @st/board-state a)
-      :else (recur (rest lines)))))
+       (== (nth current-board a)
+           (nth current-board b)
+           (nth current-board c))
+       (not (nil? (nth current-board a))))
+      (nth current-board a)
+      :else (recur current-board (rest lines)))))
