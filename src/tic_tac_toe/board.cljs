@@ -2,10 +2,27 @@
   (:require [tic-tac-toe.square :as s]
             [tic-tac-toe.state :as st]))
 
+(defn button-click-handler [move-num]
+  "change key and history"
+  (let [filter-history (filter #(let [[k v] %] (>= k move-num)) @st/history)
+        updated-history (into {} filter-history)]
+  (reset! st/current-key move-num)
+  (prn "current: " @st/current-key)
+  (reset! st/history updated-history)
+  (prn "updated: " @st/history)))
+
+(defn filter-helper [current-val move-num]
+  (let [[k v] current-val] (>= k move-num)))
+
 (defn get-button [move-num]
   [:input {:type "button"
            :value (str "Go to: " move-num)
-           :on-click #(prn (str "clicked " move-num))}])
+           :on-click #(let [filter-history (filter (filter-helper % move-num) @st/history)
+                            updated-history (into {} filter-history)]
+                        (reset! st/current-key move-num)
+                        (prn "current: " @st/current-key)
+                        (reset! st/history updated-history)
+                        (prn "updated: " @st/history))}])
 
 (defn get-history []
   [:div {:class "game-info"}
