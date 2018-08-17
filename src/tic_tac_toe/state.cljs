@@ -15,3 +15,5 @@
 (defonce current-key (r/atom 0))
 
 (defonce history (r/atom {0 [nil nil nil nil nil nil nil nil nil]}))
+
+(defonce current-state (r/atom [nil nil nil nil nil nil nil nil nil ]))

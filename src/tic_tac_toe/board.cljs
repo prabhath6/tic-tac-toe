@@ -19,7 +19,9 @@
            :on-click #(let [filter-history (filter (partial filter-helper move-num) @st/history)
                             updated-history (into {} filter-history)]
                         (reset! st/current-key move-num)
-                        (reset! st/history updated-history))}])
+                        (reset! st/history updated-history)
+                        (reset! st/current-state (get @st/history move-num))
+                        (prn "current: " @st/current-state))}])
 
 (defn get-history []
   [:div {:class "game-info"}

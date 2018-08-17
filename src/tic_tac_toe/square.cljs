@@ -28,7 +28,7 @@
                            (let [square-value (nth @st/board-state square-pos)
                                  turn-value (get-turn-val @st/isNext)
                                  is-winner @st/isWinner
-                                 [_ current-board] (last @st/history)]
+                                 current-board @st/current-state]
                              (when-not (or (not (empty? is-winner)) (not (empty? @square-state)))
                               (reset! square-state turn-value)
                               (swap! st/isNext #(not %))
