@@ -9,6 +9,7 @@
   (let [new-board (assoc current-board index turn-value)]
   (swap! st/history #(assoc % @st/current-key new-board))
   (swap! st/current-key inc)
+  (prn current-board)
   (if (not (nil? (w/calculate-winner new-board st/lines)))
     (reset! st/isWinner (w/calculate-winner new-board st/lines)))))
 
@@ -17,7 +18,7 @@
 
 ;;--------------------
 ;; Component
-(defn square [square-pos]
+(defn square [square-pos current-board]
   (let [square-state (r/atom "")
         ]
     (fn []
@@ -30,6 +31,7 @@
                                  is-winner @st/isWinner
                                  current-board @st/current-state]
                              (when-not (or (not (empty? is-winner)) (not (empty? @square-state)))
+                               (reset! square-state (get current-board square-pos))
                               (reset! square-state turn-value)
                               (swap! st/isNext #(not %))
                               (handle-on-click square-pos current-board turn-value)

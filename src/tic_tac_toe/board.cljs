@@ -21,7 +21,7 @@
                         (reset! st/current-key move-num)
                         (reset! st/history updated-history)
                         (reset! st/current-state (get @st/history move-num))
-                        (prn "current: " @st/current-state))}])
+                        (prn "current : " @st/current-state))}])
 
 (defn get-history []
   [:div {:class "game-info"}
@@ -37,15 +37,15 @@
      [:div {:class "status"
             :style {:color "green"}} (str @st/isWinner " is the winner.")])
    [:div {:class "board-row"}
-    [s/square 0 ]
-    [s/square 1 ]
-    [s/square 2 ]]
+    [s/square 0 @st/current-state]
+    [s/square 1 @st/current-state]
+    [s/square 2 @st/current-state]]
    [:div {:class "board-row"}
-    [s/square 3 ]
-    [s/square 4 ]
-    [s/square 5 ]]
+    [s/square 3 @st/current-state]
+    [s/square 4 @st/current-state]
+    [s/square 5 @st/current-state]]
    [:div {:class "board-row"}
-    [s/square 6 ]
-    [s/square 7 ]
-    [s/square 8 ]]
+    [s/square 6 @st/current-state]
+    [s/square 7 @st/current-state]
+    [s/square 8 @st/current-state]]
    [get-history]]))
